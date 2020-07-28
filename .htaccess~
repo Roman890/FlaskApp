@@ -1,0 +1,6 @@
+AuthName "Restricted Content"
+AuthUserFile /etc/apache2/.htpasswd
+Require valid-user
+RewriteEngine On 
+RewriteCond %{SERVER_PORT} 80 
+RewriteRule ^(.*)$ https://www.nnro.ru/$1 [R,L]

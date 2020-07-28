@@ -1,0 +1,9 @@
+<label id="value_lable">
+    {% for log in logs %}
+        {% if log.text == "Error in test" or log.text == "Error in test (time is up)" %}
+            <span class="r">{{log.created_date}}> {{ log.text }}</span><br>
+        {% else %}
+            <span class="g">{{log.created_date}}> {{ log.text }}</span><br>
+        {% endif %}
+    {% endfor %}
+</label>

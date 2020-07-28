@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="p-3">
+    <div class="well text-center">
+        <h1>Панель управления тестированием чат-ботов</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="p-3 float-right">
+                <button type="button" class="btn btn-primary " data-toggle="modal"
+                    data-target="#modaltest{{bot.id}}">Добавить новый тест</button>
+                <a href="/back" class="btn btn-primary">Вернуться на главную</a>
+            </div>
+            </br>
+            </br>
+            <div class="p-3 ">
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Номер</th>
+                            <th>Название</th>
+                            <th>Сообщения</th>
+                        </tr>
+                    </thead>
+                    {% for row in tests %}
+                    <tr>
+                        <td width="2%">{{row.id}}</td>
+                        <td width="33%">{{row.name}}</td>
+                        <td><div id="new{{row.id}}" class="scrollable">
+                        {% for log in row.logs %}
+                            {% if log.text == "Completed successfully" %}
+                            <span class="g">{{log.created_date}}> {{ log.text }}</span><br>
+                            {% else %}
+                            <span class="r">{{log.created_date}}> {{ log.text }}</span><br>
+                            {% endif %}
+                        {% endfor %}
+                        </div></td>
+                    </tr>
+                    <script>
+                    setInterval(function() {
+                        $.ajax({
+                        url: "/logs/{{row.id}}",
+                        type: "get",
+                        success: function(response) {
+                        $("#new{{row.id}}").html(response);
+                        }
+                    });
+                    },5000)
+                    var block = document.getElementById("new{{row.id}}");
+                    block.scrollTop = block.scrollHeight;
+                    </script>
+                    {% endfor %}
+                </table>
+            </div>
+            <div id="modaltest{{bot.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Добавить новый тест</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('insert_test')}}" method="POST">
+                                <div class="form-group">
+                                    <label>Название</label>
+                                    <input type="hidden" name="id" value="{{bot.id}}">
+                                    <input type="text" class="form-control" name="name" required="1">
+                                </div>
+                                <div class="form-group">
+                                    <label>Значение для проверки</label>
+                                    <input type="text" class="form-control" name="value1" required="1">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block" type="submit">Сохранить</button>
+                                    <button type="button" class="btn btn-secondary btn-block"
+                                        data-dismiss="modal">Отменить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
