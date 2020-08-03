@@ -4,6 +4,7 @@ api_hash = "6c6ad7a040116bf1254c00393780c76b"
 phone_number = "89506218552"
 sms_api = '46495BCB-59C8-CC6C-5D68-E4C0D5EA38F7'
 channel_username = '@AcademyPickBot'
+all_numbers = '79056676893,79601668666,79036050705,79601827236'
 
 
 class Templates:

@@ -43,7 +43,7 @@ class Logs(db.Model):
     __tablename__ = 'logs'
     id = db.Column(db.Integer, primary_key = True)
     text = db.Column(db.String(100))
-    created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_date = db.Column(db.DateTime, default=datetime.datetime.now)
     test_id = db.Column(db.Integer(), db.ForeignKey('tests.id'))
 
     def __init__(self, text, test_id):
@@ -112,7 +112,7 @@ def back():
 
 @app.route('/logs/<id>', methods = ['GET'])
 def logs(id):
-    all_logs = Logs.query.filter(Logs.test_id == int(id))
+    all_logs = Logs.query.filter(Logs.test_id == int(id)))
     return render_template('logs.html', logs=all_logs)
 
 

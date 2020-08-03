@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*- 
-from telegramBot import checkComand, checkAll, sendAll
-from Templates import sms_api, phone_number
+from telegramBot import checkComand, checkAll, sendAll, checkNewAll
+from Templates import sms_api, phone_number, all_numbers
 from sqlalchemy import desc
 import requests
 from __init__ import Bots, Logs, db
-
+import time
 
 
 def sendMessage(text):
     """Отправка смс себе через сервис sms ru"""
-    url = f"https://sms.ru/sms/send?api_id={sms_api}&to=79056676893&msg={text}&json=1"
+    url = f"https://sms.ru/sms/send?api_id={sms_api}&to={all_numbers}&msg={text}&json=1"
     res = requests.get(url)
 
 
 def mainTests():
-    """Проведение теситов для каждого бота"""
+    """Проведение тестов для каждого бота"""
     all_bots = Bots.query.all()
     for bot in all_bots:
         for test in bot.tests:
             checkAllTests(test.id, bot.name)
             checkMessage(test.id, bot.name)
+            time.sleep(10)
 
 
 def checkAllTests(id, name):
@@ -27,10 +28,7 @@ def checkAllTests(id, name):
         log = checkComand(name)
         LogsDb(log, id)
     elif id == 2:
-        if sendAll(name):
-            log = checkAll(name)
-        else :
-            log = "Error in test (time is up)"
+        log = checkNewAll(name)
         LogsDb(log, id)
     else :
         LogsDb("Not yet", id)
@@ -64,6 +62,5 @@ def checkMessage(id, name):
 
 def timed_job():
     mainTests()
-    print("Completed")
 
 timed_job()
