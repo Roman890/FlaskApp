@@ -38,10 +38,7 @@
                             <a href="/delete/{{bot.id}}" class="btn btn-secondary btn-block"
                                 onclick="return confirm('Вы действительно хотите удалить бота?')">Удалить данные
                                 бота</a>
-                            <a href="/tests/{{bot.id}}" class="btn btn-secondary
-                                btn-block">Набор тестов</a>
-                            <a href="/starttests/{{bot.id}}" class="btn btn-success btn-block">Начать тестирование</a>
-                            <a href="/stoptests/{{bot.id}}" class="btn btn-danger btn-block" onclick="return confirm('Вы действительно хотите остановить бота?')">Остановить тестирование</a>    
+                            <a href="/tests/{{bot.id}}" class="btn btn-secondary btn-block">Провести тестирование</a>
                         </td>
                     </tr>
                 </table>

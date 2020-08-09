@@ -19,7 +19,7 @@ def mainTests():
     for bot in all_bots:
         for test in bot.tests:
             checkAllTests(test.id, bot.name)
-            checkMessage(test.id, bot.name)
+           # checkMessage(test.id, bot.name)
             time.sleep(10)
 
 

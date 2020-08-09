@@ -77,17 +77,17 @@ def checkNewAll(channel_username):
     flag = False
     with TelegramClient('new', api_id, api_hash, loop=loop) as client:
         client.loop.run_until_complete(client.send_file(channel_username, 'static/video/vid.mp4'))
-        time.sleep(10)
+        time.sleep(15)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates.answer_4():
             return "Error in >Сделайте и отправьте селфи..."
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
-        time.sleep(10)
+        time.sleep(15)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates.answer_5():
             return "Error in >Прикрепите еще одно селфи..."
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
-        time.sleep(10)
+        time.sleep(15)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates.answer_6():
             return "Error in >Придумайте подпись к селфи..."

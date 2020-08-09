@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import time
 import datetime
 from multiprocessing import Process
+from stoptests import deleteCron, createCron, pr
 
 
 app = Flask(__name__)
@@ -114,6 +115,24 @@ def back():
 def logs(id):
     all_logs = Logs.query.filter(Logs.test_id == int(id))
     return render_template('logs.html', logs=all_logs)
+
+
+# stop and run tests
+@app.route('/starttests/<id>', methods = ['GET'])
+def starttests(id):
+    all_tests = Tests.query.filter(Tests.bot_id == id)
+    my_data = Bots.query.get(id)
+    #createCron()
+    return render_template("tests.html", tests=all_tests, bot=my_data)
+
+@app.route('/stoptests/<id>', methods = ['GET'])
+def stoptests(id):
+    all_tests = Tests.query.filter(Tests.bot_id == id)
+    my_data = Bots.query.get(id)
+    #deleteCron()
+    return render_template("tests.html", tests=all_tests, bot=my_data)
+
+
 
 
 if __name__ == "__main__":
