@@ -1,4 +1,4 @@
-<label id="value_lable">
+<div id="new">
     {% for log in logs %}
         {% if log.text == "Completed successfully" %}
             <span class="g">{{log.created_date}}> {{ log.text }}</span><br>
@@ -6,4 +6,4 @@
             <span class="r">{{log.created_date}}> {{ log.text }}</span><br>
         {% endif %}
     {% endfor %}
-</label>
+</div>
