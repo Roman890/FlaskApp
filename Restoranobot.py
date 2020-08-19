@@ -191,7 +191,7 @@ def run_restoranobot_tests(number, channel_username):
         check_RestoranoBot_return_to_mainMenu(channel_username)
         return log
     elif number == 607:
-        # проверка доставки
+        # проверка доставки блюд
         return
     elif number == 608:
         # проверка вызова персонала
