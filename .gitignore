@@ -1,5 +1,8 @@
 *.py~
-new.session
+*.pyc
 config.py
-__init__.pyc
+.htaccess
+.gitignore
+/sessions
+/static
 /__pycache__

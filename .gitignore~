@@ -1,0 +1,5 @@
+*.py~
+new.session
+config.py
+__init__.pyc
+/__pycache__
