@@ -5,7 +5,7 @@ import requests
 from helpers import Bots, Logs, db
 import time
 import sys
-
+import Restoranobot as rb
 
 def runTests(bot_id):
     """Проведение тестов для каждого бота"""
@@ -32,6 +32,24 @@ def checkAllTests(test_id, name):
         LogsDb(log, test_id)
     elif test_id == 501:
         log = run(test_id, name)
+        LogsDb(log, test_id)
+    elif test_id == 601:
+        log = rb.run_restoranobot_tests(test_id, name)
+        LogsDb(log, test_id)
+    elif test_id == 602:
+        log = rb.run_restoranobot_tests(test_id, name)
+        LogsDb(log, test_id)
+    elif test_id == 603:
+        log = rb.run_restoranobot_tests(test_id, name)
+        LogsDb(log, test_id)
+    elif test_id == 604:
+        log = rb.run_restoranobot_tests(test_id, name)
+        LogsDb(log, test_id)
+    elif test_id == 605:
+        log = rb.run_restoranobot_tests(test_id, name)
+        LogsDb(log, test_id)
+    elif test_id == 606:
+        log = rb.run_restoranobot_tests(test_id, name)
         LogsDb(log, test_id)
     else :
         LogsDb("Not yet", test_id)

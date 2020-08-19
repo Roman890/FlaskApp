@@ -47,7 +47,9 @@
                         </td>
                     </tr>
                     {% for row, value2 in value1.items() %}
-                        <td><div id="n{{row.id}}">
+                        <td>
+                        <b>{{row.name}}</b>
+                        <div id="n{{row.id}}">
                         {% for log in value2 %}
                             {% if log.text == "Completed successfully" %}
                             <span class="g">{{log.created_date}}> {{ log.text }}</span><br>
