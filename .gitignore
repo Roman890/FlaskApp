@@ -1,5 +1,6 @@
 *.py~
 *.pyc
+*~
 config.py
 .htaccess
 .gitignore
