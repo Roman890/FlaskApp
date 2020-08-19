@@ -24,7 +24,32 @@
             {% endfor %}
             {% endif %}
             {% endwith %}
-    
+            
+            
+            {% for bot in bots %}
+            </br>
+            <div class="jumbotron p-3 ">
+                <table class="table ">
+                    <tr>
+                        <td>
+                            <h2><img src="{{bot.image}}" width="40px" height="40px"> Чат-бот {{bot.name}}</h2>
+                        </td>
+                        <td width="30%">
+                            <a href="" class="btn btn-secondary btn-block" data-toggle="modal"
+                                data-target="#edit{{bot.id}}">Изменить данные бота</a>
+                            <a href="/delete/{{bot.id}}" class="btn btn-secondary btn-block"
+                                onclick="return confirm('Вы действительно хотите удалить бота?')">Удалить данные
+                                бота</a>
+                            <a href="/tests/{{bot.id}}" class="btn btn-primary btn-block">Набор тестов</a>
+                            <a href="/starttests/{{bot.id}}" class="btn btn-success btn-block">Начать тестирование</a>
+                            <a href="/stoptests/{{bot.id}}" class="btn btn-danger btn-block" onclick="return confirm('Вы действительно хотите остановить бота?')">Остановить тестирование</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            {% endfor %}
+            
+            
             {% for bot, value1 in data.items() %}
             </br>
             <div class="jumbotron p-2">

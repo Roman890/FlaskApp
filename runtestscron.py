@@ -2,7 +2,7 @@ from telegramBot import run, send_errors_in_bot
 from config import sms_api, all_numbers, inveite_link
 from sqlalchemy import desc
 import requests
-from __init__ import Bots, Logs, db
+from helpers import Bots, Logs, db
 import time
 import sys
 

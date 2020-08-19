@@ -1,18 +1,20 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask,render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import desc
+from sqlalchemy import desc, asc
 import datetime
+import helpers
 from stoptests import deleteCron, createCron
 from multiprocessing import Process
 import time
 
 app = Flask(__name__)
-app.secret_key = "new"
+#app.secret_key = "Secret"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/testbots'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+
 
 class Bots(db.Model):
     __tablename__ = 'bots'
@@ -36,7 +38,7 @@ class Tests(db.Model):
         self.id = id
         self.name = name
         self.bot_id = bot_id
-
+        
 class Logs(db.Model):
     __tablename__ = 'logs'
     id = db.Column(db.Integer, primary_key = True)
@@ -51,8 +53,9 @@ class Logs(db.Model):
 
 @app.route('/', methods=['GET'])
 def main():
-    all_data = find_logs_from_bots()
-    return render_template("index.html", data=all_data)
+    bots = Bots.query.all()
+    data = helpers.find_logs_from_bots() 
+    return render_template("index.html", bots=bots, data=data)
 
 
 @app.route('/insert', methods = ['POST'])
@@ -135,27 +138,6 @@ def stoptests(id):
     return render_template("tests.html", tests=all_tests, bot=my_data)
 
 
-def find_logs_from_bots():
-    """Достать ботов, тесты и 3 лога из каждого теста"""
-    data = {}
-    tests = {}
-    bots = Bots.query.all()
-    for bot in bots:
-        tests_from_bots = Tests.query.filter(Tests.bot_id == bot.id)
-        for test in tests_from_bots:
-            logs_from_test = Logs.query.filter(Logs.test_id == int(test.id)).order_by(desc(Logs.id)).limit(3).all()[::-1]
-            tests[test] = logs_from_test
-            data[bot] = tests
-        tests = {}
-    return data
-
-
-
 if __name__ == "__main__":
     db.create_all()
     app.run(threaded=True)
-   # p1 = Process(target=runTestApp)
-   # p1.start()
-   # p2 = Process(target=runFlaskApp)
-   # p2.start()
-

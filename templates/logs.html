@@ -1,4 +1,4 @@
-<div id="new">
+<div id="new_logs">
     {% for log in logs %}
         {% if log.text == "Completed successfully" %}
             <span class="g">{{log.created_date}}> {{ log.text }}</span><br>
