@@ -5,6 +5,11 @@ import time
 from datetime import date
 import asyncio
 
+def time_is_out(msg):
+    error = f"Error: Время ожидания сообщения:'{msg}', завершилось!"
+    return error
+
+
 def check_RestoranoBotStart(channel_username):
     """Проверка start для @Restoranobot"""
     loop = asyncio.new_event_loop()
@@ -14,11 +19,11 @@ def check_RestoranoBotStart(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_3():
-            return "Error in >Чем я могу Вам помочь?.."
+            return time_is_out("Чем я могу Вам помочь?..")
         if msgs[1].to_dict()['message'] != Templates_Restoranobot.answer_2():
-            return "Error in >Вас приветствует чат-бот..."
+            return time_is_out("Вас приветствует чат-бот...")
         if msgs[2].to_dict()['message'] != Templates_Restoranobot.answer_1():
-            return "Error in >Фото при старте бота."
+            return "Error: Видео при старте бота."
         return "Completed successfully"
 
 
@@ -31,11 +36,11 @@ def check_RestoranoBotContacts(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_contacts()[0]:
-            return "Error in >Будем ждать Вас.."
+            return time_is_out("Будем ждать Вас..")
         if msgs[1].to_dict()['message'] != Templates_Restoranobot.answer_for_contacts()[1]:
-            return "Error in >Наш адрес..."
+            return time_is_out("Наш адрес...")
         if msgs[2].to_dict()['message'] != Templates_Restoranobot.answer_for_contacts()[2]:
-            return "Error in >Фото адреса..."
+            return "Error: Фото адреса..."
         return "Completed successfully"
 
 
@@ -48,9 +53,9 @@ def check_RestoranoBotElectronicCard(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_electronic_card()[0]:
-            return "Error in >QR-код..."
+            return "Error: QR-код..."
         if msgs[1].to_dict()['message'] != Templates_Restoranobot.answer_for_electronic_card()[1]:
-            return "Error in >Покажите этот QR-код..."
+            return time_is_out("Покажите этот QR-код...")
         return "Completed successfully"
 
 
@@ -63,28 +68,28 @@ def check_RestoranoBotMenu(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_menu_step1()[0]:
-            return "Error in >Что Вас интересует?.."
+            return time_is_out("Что Вас интересует?..")
         if msgs[1].to_dict()['message'] != Templates_Restoranobot.answer_for_menu_step1()[1]:
-            return "Error in >(Обложка меню)..."
+            return "Error: (Обложка меню)..."
         client.loop.run_until_complete(client.send_message(channel_username, '🥣 Мясные блюда 🍛'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_menu_step1()[1]:
-            return "Error in >(Мясное меню)..."
+            return "Error: (Мясное меню)..."
         client.loop.run_until_complete(client.send_message(channel_username, '💫 Другой раздел меню 💫'))
         time.sleep(20)
         client.loop.run_until_complete(client.send_message(channel_username, '🍸 Суши и роллы 🍹'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_menu_step1()[1]:
-            return "Error in >(Суши и ролы меню)..."
+            return "Error: (Суши и ролы меню)..."
         client.loop.run_until_complete(client.send_message(channel_username, '💫 Другой раздел меню 💫'))
         time.sleep(20)
         client.loop.run_until_complete(client.send_message(channel_username, '🍷 Дополнительное 🥂'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_menu_step1()[1]:
-            return "Error in >(Дополнительное меню)..."
+            return "Error: (Дополнительное меню)..."
         return "Completed successfully"
 
 
@@ -98,14 +103,14 @@ def check_RestoranoBotFotos(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_fotos()[0]:
-            return "Error in >Хотим поделиться..."
+            return time_is_out("Хотим поделиться...")
         if msgs[1].to_dict()['message'] != Templates_Restoranobot.answer_for_fotos()[1]:
-            return "Error in >(1-ое видео)..."
+            return "Error: (1-ое видео)..."
         client.loop.run_until_complete(client.send_message(channel_username, '📸 Смотреть фото 📸'))
         time.sleep(30)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_fotos()[1]:
-            return "Error in >(фотогалерея).."
+            return "Error: (фотогалерея).."
         return "Completed successfully"
 
 
@@ -128,15 +133,15 @@ def check_RestoranoBotTableReservations(channel_username):
         time.sleep(15)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=10))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_table_reservation()[0]:
-            return "Error in >Столик успешно забронирован."
+            return time_is_out("Столик успешно забронирован.")
         if msgs[2].to_dict()['message'] != Templates_Restoranobot.answer_for_table_reservation()[1]:
-            return "Error in >На чье имя будет бронирование..."
+            return time_is_out("На чье имя будет бронирование...")
         if msgs[4].to_dict()['message'] != Templates_Restoranobot.answer_for_table_reservation()[2]:
-            return "Error in >Укажите время..."
+            return time_is_out("Укажите время...")
         if msgs[6].to_dict()['message'] != Templates_Restoranobot.answer_for_table_reservation()[3]:
-            return "Error in >Укажите дату..."
+            return time_is_out("Укажите дату...")
         if msgs[8].to_dict()['message'] != Templates_Restoranobot.answer_for_table_reservation()[4]:
-            return "Error in >На сколько человек..."
+            return time_is_out("На сколько человек...")
         return "Completed successfully"
 
 

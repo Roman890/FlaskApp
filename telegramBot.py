@@ -9,6 +9,10 @@ from Templates import \
     Templates_DadiRestBot, \
     Templates_TourPickBot
 
+def time_is_out(msg):
+    error = f"Error: Время ожидания сообщения:'{msg}', завершилось!"
+    return error
+
 
 def check_AcademyPickBot(channel_username):
     """Проверка положительного сценари для @AcademyPickBot"""
@@ -21,26 +25,26 @@ def check_AcademyPickBot(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))# сообщения
         if msgs[0].to_dict()['message'] != Templates_AcademyPickBot.answer_3():
-            return "Error in >Снимите или загрузите видео..."
+            return time_is_out("Снимите или загрузите видео...")
         if msgs[1].to_dict()['message'] != Templates_AcademyPickBot.answer_2():
-            return "Error in >Давайте попробуем вместе..."
+            return time_is_out("Давайте попробуем вместе...")
         if msgs[2].to_dict()['message'] != Templates_AcademyPickBot.answer_1():
-            return "Error in >Приветствую Вас!..."
+            return time_is_out("Приветствую Вас!...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/video/vid.mp4'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_AcademyPickBot.answer_4():
-            return "Error in >Сделайте и отправьте селфи..."
+            return time_is_out("Сделайте и отправьте селфи...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_AcademyPickBot.answer_5():
-            return "Error in >Прикрепите еще одно селфи..."
+            return time_is_out("Прикрепите еще одно селфи...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_AcademyPickBot.answer_6():
-            return "Error in >Придумайте подпись к селфи..."
+            return time_is_out("Придумайте подпись к селфи...")
         client.loop.run_until_complete(client.send_message(channel_username, 'Это было круто'))
         time.sleep(20)
         end_time = time.time() - start_time
@@ -53,11 +57,11 @@ def check_AcademyPickBot(channel_username):
         if flag:
             msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
             if msgs[0].to_dict()['message'] != Templates_AcademyPickBot.answer_10():
-                return "Error in >👌 Видеоролик готов!"
+                return "Error:👌 Видеоролик готов!"
             if msgs[1].to_dict()['message'] != Templates_AcademyPickBot.answer_9():
-                return "Error in >(Видео)"
+                return "Error:(Видео)"
         else:
-            return "(Time is up)"
+            return "Error:Время ожидания видео и заключительного сообщения завершилось!"
         return "Completed successfully"
 
 
@@ -72,40 +76,43 @@ def check_hi_prof_bot(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_hi_prof_bot.answer_1():
-            return "Error in >Привет👋..."
-        client.loop.run_until_complete(client.send_message(channel_username, 'Создать видеоролик'))
+            return time_is_out(" Привет👋...")
+        client.loop.run_until_complete(client.send_message(channel_username, 'Сделать видео "Первый урок вождения"'))
         time.sleep(20)
-        msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=4))
+        msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
+        if msgs[0].to_dict()['message'] != Templates_hi_prof_bot.answer_2():
+            return time_is_out("Выберите формат..")    
+        client.loop.run_until_complete(client.send_message(channel_username, 'Вертикальное'))
+        time.sleep(20)
+        msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))
         if msgs[0].to_dict()['message'] != Templates_hi_prof_bot.answer_5():
-            return "Error in >Снимите или загрузите видео..."
+            return time_is_out("Снимите или загрузите видео...")
         if msgs[1].to_dict()['message'] != Templates_hi_prof_bot.answer_4():
-            return "Error in >Итак, приступим..."
+            return time_is_out("Итак, приступим...")
         if msgs[2].to_dict()['message'] != Templates_hi_prof_bot.answer_3():
-            return "Error in >Нам понадобится..."
-        if msgs[3].to_dict()['message'] != Templates_hi_prof_bot.answer_2():
-            return "Error in >Давайте попробуем..."
+            return time_is_out("Нам понадобится...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/video/vid.mp4'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_hi_prof_bot.answer_6():
-            return "Error in >Сделайте и отправьте селфи..."
+            return time_is_out("Сделайте и отправьте селфи...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
         time.sleep(20)
         end_time = time.time() - start_time
         while end_time < 420: # 7 минут положительный сценарий
             msg = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
             end_time = time.time() - start_time
-            if msg[0].to_dict()['message'] == Templates_hi_prof_bot.answer_10():
+            if msg[0].to_dict()['message'][:21] == Templates_hi_prof_bot.answer_10():
                 flag = True
                 break
         if flag:
             msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
-            if msgs[0].to_dict()['message'] != Templates_hi_prof_bot.answer_10():
-                return "Error in >👌 Видеоролик готов!"
+            if msgs[0].to_dict()['message'][:21] != Templates_hi_prof_bot.answer_10():
+                return "Error:👌 Видеоролик готов!"
             if msgs[1].to_dict()['message'] != Templates_hi_prof_bot.answer_9():
-                return "Error in >(Видео)"
+                return "Error:(Видео)"
         else:
-            return "(Time is up)"
+            return "Error:Время ожидания видео и заключительного сообщения завершилось!"
         return "Completed successfully"
 
 
@@ -120,16 +127,16 @@ def check_kurtsevobot(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))
         if msgs[0].to_dict()['message'] != Templates_kurtsevobot.answer_3():
-            return "Error in >Загрузите небольшое..."
+            return time_is_out("Загрузите небольшое...")
         if msgs[1].to_dict()['message'] != Templates_kurtsevobot.answer_2():
-            return "Error in >Давайте попробуем вместе..."
+            return time_is_out("Давайте попробуем вместе...")
         if msgs[2].to_dict()['message'] != Templates_kurtsevobot.answer_1():
-            return "Error in >Приветствую Вас!..."
+            return time_is_out("Приветствую Вас!...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/video/vid.mp4'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_kurtsevobot.answer_4():
-            return "Error in >Загрузите свое фото..."
+            return time_is_out("Загрузите свое фото...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
         time.sleep(20)
         end_time = time.time() - start_time
@@ -142,11 +149,11 @@ def check_kurtsevobot(channel_username):
         if flag:
             msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
             if msgs[0].to_dict()['message'] != Templates_kurtsevobot.answer_8():
-                return "Error in >👌 Видеоролик готов!"
+                return "Error:👌 Видеоролик готов!"
             if msgs[1].to_dict()['message'] != Templates_kurtsevobot.answer_7():
-                return "Error in >(Видео)"
+                return "Error:(Видео)"
         else:
-            return "(Time is up)"
+            return "Error:Время ожидания видео и заключительного сообщения завершилось!"
         return "Completed successfully"
 
 
@@ -161,23 +168,23 @@ def check_DadiRestBot(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
         if msgs[0].to_dict()['message'] != Templates_DadiRestBot.answer_2():
-            return "Error in >Чем я могу Вам помочь?..."
+            return time_is_out("Чем я могу Вам помочь?...")
         if msgs[1].to_dict()['message'] != Templates_DadiRestBot.answer_1():
-            return "Error in >Привет!..."
+            return time_is_out("Привет!...")
         client.loop.run_until_complete(client.send_message(channel_username, '🎬 Сделать видеоселфи 🎬'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))
         if msgs[0].to_dict()['message'] != Templates_DadiRestBot.answer_5():
-            return "Error in >Снимите/загрузите короткое видео..."
+            return time_is_out("Снимите/загрузите короткое видео...")
         if msgs[1].to_dict()['message'] != Templates_DadiRestBot.answer_4():
-            return "Error in >Итак, нам понадобится..."
+            return time_is_out("Итак, нам понадобится...")
         if msgs[2].to_dict()['message'] != Templates_DadiRestBot.answer_3():
-            return "Error in >👐 Давайте вместе..."
+            return time_is_out("👐 Давайте вместе...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/video/vid.mp4'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_DadiRestBot.answer_6():
-            return "Error in >Отлично! 🤳 ..."
+            return time_is_out("Отлично! 🤳 ...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
         time.sleep(20)
         end_time = time.time() - start_time
@@ -190,11 +197,11 @@ def check_DadiRestBot(channel_username):
         if flag:
             msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
             if msgs[0].to_dict()['message'] != Templates_DadiRestBot.answer_10():
-                return "Error in >👌 Видео готово!"
+                return "Error:👌 Видео готово!"
             if msgs[1].to_dict()['message'] != Templates_DadiRestBot.answer_9():
-                return "Error in >(Видео)"
+                return "Error:(Видео)"
         else:
-            return "(Time is up)"
+            return "Errorr:Время ожидания видео и заключительного сообщения завершилось!"
         return "Completed successfully"
 
 
@@ -210,26 +217,26 @@ def check_TourPickBot(channel_username):
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))
         if msgs[0].to_dict()['message'] != Templates_TourPickBot.answer_3():
-            return "Error in >Снимите видео..."
+            return time_is_out("Снимите видео...")
         if msgs[1].to_dict()['message'] != Templates_TourPickBot.answer_2():
-            return "Error in >Давайте попробуем вместе..."
+            return time_is_out("Давайте попробуем вместе...")
         if msgs[2].to_dict()['message'] != Templates_TourPickBot.answer_1():
-            return "Error in >Приветствую Вас!..."
+            return time_is_out("Приветствую Вас!...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/video/vid.mp4'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_TourPickBot.answer_4():
-            return "Error in >Прикрепите и оправьте селфи..."
+            return time_is_out("Прикрепите и оправьте селфи...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_TourPickBot.answer_5():
-            return "Error in >Напишите подпись к селфи..."
+            return time_is_out("Напишите подпись к селфи...")
         client.loop.run_until_complete(client.send_message(channel_username, 'Это было круто'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
         if msgs[0].to_dict()['message'] != Templates_TourPickBot.answer_6():
-            return "Error in >Прикрепите еще одно селфи..."
+            return time_is_out("Прикрепите еще одно селфи...")
         client.loop.run_until_complete(client.send_file(channel_username, 'static/img/cars.jpg'))
         time.sleep(20)
         end_time = time.time() - start_time
@@ -242,11 +249,11 @@ def check_TourPickBot(channel_username):
         if flag:
             msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
             if msgs[0].to_dict()['message'] != Templates_TourPickBot.answer_10():
-                return "Error in >👌Видеоролик готов!"
+                return "Error:👌Видеоролик готов!"
             if msgs[1].to_dict()['message'] != Templates_TourPickBot.answer_9():
-                return "Error in >(Видео)"
+                return "Error:(Видео)"
         else:
-            return "(Time is up)"
+            return "Error:Время ожидания видео и заключительного сообщения завершилось!"
         return "Completed successfully"
 
 
@@ -285,5 +292,4 @@ def run(number, channel_username):
         return check_TourPickBot(channel_username)
     else :
         return
-
 
