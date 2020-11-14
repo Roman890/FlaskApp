@@ -46,10 +46,14 @@ def checkAllTests(test_id, name):
         log = rb.run_restoranobot_tests(test_id, name)
         LogsDb(log, test_id)
     elif test_id == 605:
-        log = rb.run_restoranobot_tests(test_id, name)
-        LogsDb(log, test_id)
+        log = "not yet"
+   #     log = rb.run_restoranobot_tests(test_id, name)
+   #     LogsDb(log, test_id)
     elif test_id == 606:
         log = rb.run_restoranobot_tests(test_id, name)
+        LogsDb(log, test_id)
+    elif test_id == 701:
+        log = run(test_id, name)
         LogsDb(log, test_id)
     else :
         LogsDb("Not yet", test_id)

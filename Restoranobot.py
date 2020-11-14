@@ -32,7 +32,7 @@ def check_RestoranoBotContacts(channel_username):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     with TelegramClient('sessions/session6', api_id, api_hash, loop=loop) as client:
-        client.loop.run_until_complete(client.send_message(channel_username, '📱 Контакты 📱'))
+        client.loop.run_until_complete(client.send_message(channel_username, 'Контакты'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_contacts()[0]:
@@ -49,7 +49,7 @@ def check_RestoranoBotElectronicCard(channel_username):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     with TelegramClient('sessions/session6', api_id, api_hash, loop=loop) as client:
-        client.loop.run_until_complete(client.send_message(channel_username, '💳 Электронная карта 💳'))
+        client.loop.run_until_complete(client.send_message(channel_username, 'Электронная карта'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_electronic_card()[0]:
@@ -64,7 +64,7 @@ def check_RestoranoBotMenu(channel_username):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     with TelegramClient('sessions/session6', api_id, api_hash, loop=loop) as client:
-        client.loop.run_until_complete(client.send_message(channel_username, '🥣 Посмотреть Меню 🍹'))
+        client.loop.run_until_complete(client.send_message(channel_username, 'Посмотреть Меню'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_menu_step1()[0]:
@@ -99,7 +99,7 @@ def check_RestoranoBotFotos(channel_username):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     with TelegramClient('sessions/session6', api_id, api_hash, loop=loop) as client:
-        client.loop.run_until_complete(client.send_message(channel_username, '📸 Фотогалерея 📸'))
+        client.loop.run_until_complete(client.send_message(channel_username, 'Фотогалерея'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
         if msgs[0].to_dict()['message'] != Templates_Restoranobot.answer_for_fotos()[0]:
@@ -119,7 +119,7 @@ def check_RestoranoBotTableReservations(channel_username):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     with TelegramClient('sessions/session6', api_id, api_hash, loop=loop) as client:
-        client.loop.run_until_complete(client.send_message(channel_username, '✨ Забронировать столик ✨'))
+        client.loop.run_until_complete(client.send_message(channel_username, 'Забронировать столик'))
         time.sleep(15)
         client.loop.run_until_complete(client.send_message(channel_username, '2'))
         time.sleep(15)
@@ -211,3 +211,4 @@ def run_restoranobot_tests(number, channel_username):
         return
 
 
+#print(run_restoranobot_tests(601,'@Restoranobot'))

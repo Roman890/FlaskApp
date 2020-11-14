@@ -7,7 +7,8 @@ from Templates import \
     Templates_hi_prof_bot, \
     Templates_kurtsevobot,\
     Templates_DadiRestBot, \
-    Templates_TourPickBot
+    Templates_TourPickBot, \
+    Templates_hctorpedo_bot
 
 def time_is_out(msg):
     error = f"Error: Время ожидания сообщения:'{msg}', завершилось!"
@@ -66,7 +67,7 @@ def check_AcademyPickBot(channel_username):
 
 
 def check_hi_prof_bot(channel_username):
-    """Проверка положительного сценари для @hi_prof_bot"""
+    """Проверка положительного сценария для @hi_prof_bot"""
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     start_time = time.time()
@@ -75,7 +76,7 @@ def check_hi_prof_bot(channel_username):
         client.loop.run_until_complete(client.send_message(channel_username, '/start'))
         time.sleep(20)
         msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
-        if msgs[0].to_dict()['message'] != Templates_hi_prof_bot.answer_1():
+        if msgs[0].to_dict()['message'][:7] != Templates_hi_prof_bot.answer_1():
             return time_is_out(" Привет👋...")
         client.loop.run_until_complete(client.send_message(channel_username, 'Сделать видео "Первый урок вождения"'))
         time.sleep(20)
@@ -102,12 +103,12 @@ def check_hi_prof_bot(channel_username):
         while end_time < 420: # 7 минут положительный сценарий
             msg = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
             end_time = time.time() - start_time
-            if msg[0].to_dict()['message'][:21] == Templates_hi_prof_bot.answer_10():
+            if msg[0].to_dict()['message'][:20] == Templates_hi_prof_bot.answer_10():
                 flag = True
                 break
         if flag:
             msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
-            if msgs[0].to_dict()['message'][:21] != Templates_hi_prof_bot.answer_10():
+            if msgs[0].to_dict()['message'][:20] != Templates_hi_prof_bot.answer_10():
                 return "Error:👌 Видеоролик готов!"
             if msgs[1].to_dict()['message'] != Templates_hi_prof_bot.answer_9():
                 return "Error:(Видео)"
@@ -257,6 +258,47 @@ def check_TourPickBot(channel_username):
         return "Completed successfully"
 
 
+def check_hctorpedo_bot(channel_username):
+    """Проверка положительного сценария для @hctorpedo_bot"""
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    start_time = time.time()
+    flag = False
+    with TelegramClient('sessions/session7', api_id, api_hash, loop=loop) as client:
+        client.loop.run_until_complete(client.send_message(channel_username, '/start'))
+        time.sleep(15)
+        msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=3))
+        if msgs[0].to_dict()['message'] != Templates_hctorpedo_bot.answer_1()[2]:
+            return time_is_out("Напишите свою фамилию...")
+        if msgs[1].to_dict()['message'] != Templates_hctorpedo_bot.answer_1()[1]:
+            return time_is_out("Чтобы сделать заставку...")
+        if msgs[2].to_dict()['message'] != Templates_hctorpedo_bot.answer_1()[0]:
+            return time_is_out("Приветствую Вас!...")
+        client.loop.run_until_complete(client.send_message(channel_username, 'Petrov'))
+        time.sleep(20)
+        msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
+        if msgs[0].to_dict()['message'] != Templates_hctorpedo_bot.answer_2():
+            return time_is_out("Теперь введите номер...")
+        client.loop.run_until_complete(client.send_message(channel_username, '66'))
+        time.sleep(20)
+        end_time = time.time() - start_time
+        while end_time < 300: # 5 минут положительный сценарий
+            msg = client.loop.run_until_complete(client.get_messages(channel_username, limit=1))
+            end_time = time.time() - start_time
+            if msg[0].to_dict()['message'] == Templates_hctorpedo_bot.answer_3()[0]:
+                flag = True
+                break
+        if flag:
+            msgs = client.loop.run_until_complete(client.get_messages(channel_username, limit=2))
+            if msgs[0].to_dict()['message'] != Templates_hctorpedo_bot.answer_3()[0]:
+                return time_is_out("Заставка готова!")
+            if msgs[1].to_dict()['message'] != Templates_hctorpedo_bot.answer_3()[1]:
+                return "Error:(Фото)"
+        else:
+            return "Error:Время ожидания заставки и заключительного сообщения завершилось!"
+        return "Completed successfully"
+
+
 def all_message(channel_username, number):
     """просмотр сообщений в телеграм"""
     loop = asyncio.new_event_loop()
@@ -290,6 +332,8 @@ def run(number, channel_username):
         return check_DadiRestBot(channel_username)
     elif number == 501:
         return check_TourPickBot(channel_username)
+    elif number == 701:
+        return check_hctorpedo_bot(channel_username)
     else :
         return
 
